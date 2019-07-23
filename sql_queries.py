@@ -58,11 +58,11 @@ staging_songs_table_create = ("""
 songplay_table_create = ("""
     CREATE TABLE IF NOT EXISTS songplays (
         songplay_id TEXT PRIMARY KEY,
-        start_time TIMESTAMP,
-        user_id INT,
+        start_time TIMESTAMP NOT NULL,
+        user_id INT NOT NULL,
         level VARCHAR(10),
-        song_id TEXT,
-        artist_id TEXT,
+        song_id TEXT NOT NULL,
+        artist_id TEXT NOT NULL,
         session_id INT,
         location TEXT,
         user_agent TEXT,
@@ -88,7 +88,7 @@ song_table_create = ("""
     CREATE TABLE IF NOT EXISTS songs (
         song_id TEXT PRIMARY KEY,
         title TEXT,
-        artist_id TEXT,
+        artist_id TEXT NOT NULL,
         year INT,
         duration NUMERIC(10, 5)
     );

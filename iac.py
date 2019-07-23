@@ -6,6 +6,12 @@ import boto3 as boto3
 
 
 def create_role_and_get_name(iam):
+    """
+    Create an IAM role to access S3.
+
+    :param iam: AWS IAM Client
+    :return: String created role arn
+    """
     role_name = 'dend-project-role'
 
     try:
@@ -37,6 +43,20 @@ def create_role_and_get_name(iam):
 
 def create_redshift_cluster(redshift, db_name=None, db_user=None, db_password=None, iam_role_arn=None,
                             cluster_type='multi-node', node_type='dc2.large', nodes=2, identifier='dend-cluster'):
+    """
+    Create a Redshift Cluster.
+
+    :param redshift: AWS Redhisft Client
+    :param db_name: Name of the database to create
+    :param db_user: Name of the user
+    :param db_password: User password
+    :param iam_role_arn: iam role to the cluster
+    :param cluster_type: Cluster Type
+    :param node_type:  Node Type
+    :param nodes: Number of nodes per Cluster
+    :param identifier: Cluster Identifier
+    :return: String created role arn
+    """
     redshift.create_cluster(
         # hardware
         ClusterType=cluster_type,
