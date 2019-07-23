@@ -57,7 +57,7 @@ staging_songs_table_create = ("""
 
 songplay_table_create = ("""
     CREATE TABLE IF NOT EXISTS songplays (
-        songplay_id TEXT PRIMARY KEY,
+        songplay_id INT SERIAL(0,1) PRIMARY KEY,
         start_time TIMESTAMP NOT NULL,
         user_id INT NOT NULL,
         level VARCHAR(10),
@@ -140,9 +140,8 @@ staging_songs_copy = ("""
 
 songplay_table_insert = ("""
     INSERT INTO songplays 
-    (songplay_id, start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)  
+    (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)  
     SELECT
-        e.session_id || '_' || e.session_item AS songplay_id,
         e.ts as start_time,
         e.user_id,
         e.level,
