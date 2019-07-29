@@ -57,7 +57,7 @@ staging_songs_table_create = ("""
 
 songplay_table_create = ("""
     CREATE TABLE IF NOT EXISTS songplays (
-        songplay_id INT SERIAL(0,1) PRIMARY KEY,
+        songplay_id INT IDENTITY(0,1) PRIMARY KEY,
         start_time TIMESTAMP NOT NULL,
         user_id INT NOT NULL,
         level VARCHAR(10),
@@ -141,7 +141,7 @@ staging_songs_copy = ("""
 songplay_table_insert = ("""
     INSERT INTO songplays 
     (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)  
-    SELECT
+    SELECT DISTINCT
         e.ts as start_time,
         e.user_id,
         e.level,
@@ -162,7 +162,7 @@ songplay_table_insert = ("""
 user_table_insert = ("""
     INSERT INTO users
     (user_id, first_name, last_name, gender, level)
-    SELECT 
+    SELECT DISTINCT
         user_id, 
         first_name, 
         last_name, 
@@ -180,7 +180,7 @@ user_table_insert = ("""
 song_table_insert = ("""
     INSERT INTO songs
     (song_id, title, artist_id, year, duration)
-    SELECT
+    SELECT DISTINCT
         song_id, title, artist_id, year, duration
     FROM 
         staging_songs
@@ -192,7 +192,7 @@ song_table_insert = ("""
 artist_table_insert = ("""
     INSERT INTO artists
     (artist_id, name, location, latitude, longitude)
-    SELECT 
+    SELECT DISTINCT
         artist_id, artist_name, artist_location, artist_latitude, artist_longitude
     FROM (
         SELECT *, ROW_NUMBER() OVER (PARTITION BY artist_id ORDER BY YEAR DESC) AS rn
